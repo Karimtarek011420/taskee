@@ -1,0 +1,15 @@
+
+.container{
+    padding: 10px 50px ;
+}
+.job-list{
+  
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+
+}
+@media (max-width: 500px) {
+    .job-list {
+        grid-template-columns: 1fr; 
+    } }

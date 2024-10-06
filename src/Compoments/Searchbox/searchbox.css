@@ -1,0 +1,21 @@
+.searchheader{
+   
+    background-color: #ffffff;
+    margin-top:3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.searchheadchild{
+    position: relative;
+    width: 400px;
+    padding: 20px;
+
+}
+.searchheadchild input{
+    padding: 100px;
+}
+input::placeholder{
+    font-size: 1.1rem;
+}
