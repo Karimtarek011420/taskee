@@ -1,8 +1,8 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link} from 'react-router-dom'
 import './Navbar.css'
 
 export default function Navbar() {
+
   return <>
   <header className="header">
       <div className="logo">
@@ -21,9 +21,11 @@ export default function Navbar() {
           </li>
         </ul>
       </nav>
+
     </header>
-  
-  
+
+    
+
   
   </>
 }

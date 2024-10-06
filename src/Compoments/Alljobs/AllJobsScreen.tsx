@@ -1,30 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchJobs } from '../../redux/actions/jobActions';
 import JobCard from '../jobcard/JobCard';
 import './alljobs.css'
+import { fetchJobs, fetchJobsQuery } from '../../RTK/JobsSlice';
 
 const AllJobsScreen = () => {
   const dispatch: any = useDispatch();
-  const { jobs, loading, error } = useSelector((state:any) => state.jobs);
-  console.log(jobs);
-  
-
+  const Data = useSelector((state: any) => state?.jobs?.jobs);
+  const Query = useSelector((state: any) => state?.jobs?.Query);
   useEffect(() => {
-    dispatch(fetchJobs());
-  }, [dispatch]);
+    if (!Query) {
+      dispatch(fetchJobs());
+    }
+    else if (Query) {
+      dispatch(fetchJobsQuery(Query));
+    }
+  }, [Query, dispatch]);
 
-  if (loading) return <p>Loading jobs...</p>;
-  if (error) return <p>Error fetching jobs: {error}</p>;
+  const MappingJob = () => {
+    if (Data) {
+      return (
+        Data.map((job: any) => (
+          <JobCard key={job.id} job={job} />
+        ))
+      )
+    }
+  }
+
 
   return (
     <div className='container'>
-      <h1>All Jobs (32)</h1>
+      <h1>All Jobs {Data?.length}</h1>
       <div className="job-list">
-        {jobs.map((job: any) => (
-          <JobCard key={job.id} job={job} />
-        ))}
-      </div>
+        {MappingJob()}</div>
+      { Data?.length === 0 && "There's no Data"}
     </div>
   );
 };
