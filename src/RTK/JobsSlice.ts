@@ -19,28 +19,37 @@ interface JobState {
     jobs: [] | null;
     loading: boolean;
     error: string | null;
-    Query: string
+    Query: string;
 }
 
 const initialState: JobState = {
     jobs: null,
     loading: false,
     error: null,
-    Query: ""
+    Query: "",
 };
 
 export const fetchJobs = createAsyncThunk(
     'jobs/fetchJobs',
-    async () => {
-        const response = await axios.get("https://skills-api-zeta.vercel.app/jobs");
-        return response.data.data.jobs;
+    async (_, { getState }) => {
+        const state = getState() as { jobs: JobState }; // الحصول على الحالة الحالية
+        const query = state.jobs.Query; // استخراج الـ Query من الحالة
+
+        // تحقق إذا كانت الـ Query فارغة
+        if (query === "") {
+            const response = await axios.get("https://skills-api-zeta.vercel.app/jobs");
+            return response.data.data.jobs;
+        } else {
+            const response = await axios.get(`https://skills-api-zeta.vercel.app/jobs/search?query=${query}`);
+            return response.data.data.jobs;
+        }
     }
 );
 
 export const fetchJobsQuery = createAsyncThunk(
     'jobs/fetchJobsQuery',
-    async (Value: string) => {
-        const response = await axios.get(`https://skills-api-zeta.vercel.app/jobs/search?query=${Value}`);
+    async (value: string) => {
+        const response = await axios.get(`https://skills-api-zeta.vercel.app/jobs/search?query=${value}`);
         return response.data.data.jobs;
     }
 );
@@ -62,7 +71,7 @@ const jobsSlice = createSlice({
             .addCase(fetchJobs.fulfilled, (state, action) => {
                 state.jobs = action.payload;
                 state.loading = false;
-                console.log(state.jobs)
+                console.log(state.jobs);
             })
             .addCase(fetchJobs.rejected, (state, action) => {
                 state.loading = false;
@@ -74,11 +83,10 @@ const jobsSlice = createSlice({
                 state.loading = true;
                 state.error = null;
             })
-
             .addCase(fetchJobsQuery.fulfilled, (state, action) => {
                 state.jobs = action.payload;
                 state.loading = false;
-                console.log(state.jobs)
+                console.log(state.jobs);
             })
             .addCase(fetchJobsQuery.rejected, (state, action) => {
                 state.loading = false;
@@ -86,5 +94,6 @@ const jobsSlice = createSlice({
             });
     },
 });
+
 export const { GetQuery } = jobsSlice.actions;
 export default jobsSlice.reducer;
