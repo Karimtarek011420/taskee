@@ -12,7 +12,7 @@ export default function Searchbox() {
   const [query, setQuery] = useState("");
 
   const handleSearch = debounce((value: string) => {
-    if (value.length >= 1) {
+    if (value.length >= 3) {
       dispatch(GetQuery(value));
       dispatch(fetchJobsQuery(value));
     }
