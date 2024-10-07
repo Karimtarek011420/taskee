@@ -9,14 +9,16 @@ import { Provider } from "react-redux";
 import store from "./RTK/store";
 import AllJobsScreen from "./Compoments/Alljobs/AllJobsScreen";
 import SingleJob from "./Compoments/SingleJob/SingleJob";
+import SearchComponent from "./Compoments/SearchComponent/SearchComponent";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
-      { index: true, element: <AllJobsScreen /> },
+      { path: "/", element: <AllJobsScreen /> },
       { path: "jobs", element: <AllJobsScreen /> },
+      { path: "search", element: <SearchComponent /> },
       { path: "about", element: <h1>About Page</h1> },
       { path: "contact", element: <h1>Contact Page</h1> },
       { path: "job/:id", element: <SingleJob /> },

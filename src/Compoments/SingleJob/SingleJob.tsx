@@ -1,11 +1,18 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import "./SingleJob.css";
+import RelatedCard from '../Related/RelatedCard';
 
 interface Skill {
     id: string;
-    name: string;
+    attributes: {
+        name: string;
+    };
+    relationships: {
+        jobs: JobType[];
+        skills: SkillType[];
+    };
 }
 
 interface Job {
@@ -17,12 +24,33 @@ interface Job {
     };
 }
 
+interface SkillType {
+    id: string;
+    attributes: {
+        name: string;
+    };
+    relationships: {
+        jobs: JobType[];
+        skills: SkillType[];
+    };
+}
+
+interface JobType {
+    id: string;
+    attributes: {
+        title: string;
+    };
+}
+
 export default function SingleJob() {
     const { id } = useParams<{ id: string }>();
     const [job, setJob] = useState<Job | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [skills, setSkills] = useState<string[]>([]); // حالة لتخزين المهارات
+    const [skills, setSkills] = useState<string[]>([]);
+    const [SkillsID, setSkillsID] = useState<SkillType[][]>([]);
+    const [JobsID, setJobsID] = useState<JobType[][]>([]);
+    const [ATTR, setATTR] = useState<any[]>([]);
 
     useEffect(() => {
         const fetchJob = async () => {
@@ -30,7 +58,6 @@ export default function SingleJob() {
                 const response = await axios.get(`https://skills-api-zeta.vercel.app/job/${id}`);
                 setJob(response.data.data.job);
                 setLoading(false);
-                console.log(response.data.data.job);
             } catch (error: any) {
                 setError('فشل في جلب البيانات');
                 setLoading(false);
@@ -49,11 +76,19 @@ export default function SingleJob() {
                 const skillResponses = await Promise.all(skillPromises);
                 const skillNames = skillResponses.map(response => response.data.data.skill.attributes.name);
                 setSkills(skillNames); // تخزين أسماء المهارات في الحالة
+
+                // تخزين المهارات والوظائف المرتبطة
+                setATTR(skillResponses.map(response => response.data.data.skill.attributes));
+                setJobsID(skillResponses.map(response => response.data.data.skill.relationships.jobs));
+                setSkillsID(skillResponses.map(response => response.data.data.skill.relationships.skills));
             }
         };
 
         fetchSkills();
-    }, [job]); // يعتمد على job للتحديث
+    }, [job]);
+
+    // استخدام useMemo لمنع إعادة الحساب غير الضرورية
+    const memoizedAttributes = useMemo(() => ATTR.map(attr => attr.name), [ATTR]);
 
     if (loading) {
         return <div>Loading...</div>; // عرض حالة التحميل
@@ -65,15 +100,22 @@ export default function SingleJob() {
 
     return (
         <div className='SJob-Container'>
-            <h1>{job?.attributes?.title}</h1>
             <div>
-                <h2>Related Skills:</h2>
-                <ul>
-                    {skills.map((skillName, index) => (
-                        <li key={index}>{skillName}</li> // عرض أسماء المهارات
-                    ))}
-                </ul>
+                <h1>{job?.attributes?.title}</h1>
+                <div>
+                    <h2>Related Skills:</h2>
+                    <ul>
+                        {skills.map((skillName, index) => (
+                            <li key={index}>{skillName}</li> // عرض أسماء المهارات
+                        ))}
+                    </ul>
+                </div>
             </div>
+            <RelatedCard
+                Jobs={JobsID}
+                Skills={SkillsID}
+                ATTR={memoizedAttributes} // تمرير القيم المحسوبة باستخدام useMemo
+            />
         </div>
     );
 }

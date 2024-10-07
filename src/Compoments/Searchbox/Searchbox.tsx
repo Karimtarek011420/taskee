@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import './searchbox.css';
 import { useDispatch } from "react-redux";
-import { GetQuery, fetchJobsQuery, fetchJobs } from "../../RTK/JobsSlice";
+import { GetQuery, fetchJobsQuery, fetchJobs, ClearQuery } from "../../RTK/JobsSlice";
 import { AppDispatch } from "../../RTK/store";
 
 export default function Searchbox() {
@@ -12,15 +12,14 @@ export default function Searchbox() {
   const [query, setQuery] = useState("");
 
   const handleSearch = debounce((value: string) => {
-    if (value.length >= 1) {
+    if (value.length >= 3) {
       dispatch(GetQuery(value));
       dispatch(fetchJobsQuery(value));
     }
-    else if (value.length <= 0) {
-      dispatch(GetQuery(""));
-    }
     else {
       dispatch(fetchJobs());
+      dispatch(ClearQuery());
+
     }
   }, 300);
 

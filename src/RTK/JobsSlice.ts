@@ -61,6 +61,9 @@ const jobsSlice = createSlice({
         GetQuery: (state, action) => {
             state.Query = action.payload;
         },
+        ClearQuery: (state) => {
+            state.Query = "";
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -71,7 +74,6 @@ const jobsSlice = createSlice({
             .addCase(fetchJobs.fulfilled, (state, action) => {
                 state.jobs = action.payload;
                 state.loading = false;
-                console.log(state.jobs);
             })
             .addCase(fetchJobs.rejected, (state, action) => {
                 state.loading = false;
@@ -95,5 +97,5 @@ const jobsSlice = createSlice({
     },
 });
 
-export const { GetQuery } = jobsSlice.actions;
+export const { GetQuery, ClearQuery } = jobsSlice.actions;
 export default jobsSlice.reducer;
