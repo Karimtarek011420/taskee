@@ -6,6 +6,8 @@ import './searchbox.css';
 import { useDispatch } from "react-redux";
 import { GetQuery, fetchJobsQuery, fetchJobs, ClearQuery } from "../../RTK/JobsSlice";
 import { AppDispatch } from "../../RTK/store";
+import { addSearchHistory } from '../../RTK/searchSlice';
+
 
 export default function Searchbox() {
   const dispatch = useDispatch<AppDispatch>(); // تحديد نوع الـ dispatch
@@ -15,6 +17,8 @@ export default function Searchbox() {
     if (value.length >= 3) {
       dispatch(GetQuery(value));
       dispatch(fetchJobsQuery(value));
+      dispatch(addSearchHistory(query));
+
     }
     else {
       dispatch(fetchJobs());

@@ -3,10 +3,17 @@ import { fetchJobs, fetchJobsQuery } from "../../RTK/JobsSlice";
 import JobCard from "../jobcard/JobCard";
 import { useDispatch, useSelector } from "react-redux";
 import "./SearchStyle.css";
+import { RootState } from "../../RTK/store";
+import { Link } from "react-router-dom";
+
 export default function SearchComponent() {
   const dispatch: any = useDispatch();
   const Data = useSelector((state: any) => state?.jobs?.jobs);
   const Query = useSelector((state: any) => state?.jobs?.Query);
+  const searchHistory = useSelector(
+    (state: RootState) => state.search.searchHistory
+  );
+  console.log(searchHistory);
 
   useEffect(() => {
     if (!Query) {
@@ -33,9 +40,21 @@ export default function SearchComponent() {
         )}
       </h1>
       <div className="job-list">
-        {MappingJob()}
+        <div className="job-list">
+          {MappingJob()}
 
-        {Data?.length === 0 && "There's no Data"}
+          {Data?.length === 0 && "There's no Data"}
+        </div>
+        <div className="History">
+          <h3>Search History:</h3>
+          <ul className="search-history">
+            {searchHistory.map((history: string, index: number) => (
+              <li key={index}>
+                <Link to={`/search?query=${history}`}>{history}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );

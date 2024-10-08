@@ -1,13 +1,54 @@
 .container {
-  padding: 10px 50px;
+  padding: 10px 200px;
 }
 .job-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
-@media (max-width: 500px) {
+.History{
+    margin-left: 100px;
+    background-color: #D9D9D9;
+    padding: 20px;
+    width: 80%;
+}
+/* Styles for search history */
+.search-history {
+    margin-top: 20px;
+    padding-left: 10px;
+    
+  }
+  
+  .search-history li {
+    margin-bottom: 10px;
+  }
+  
+  .search-history li a {
+    /* text-decoration: none; */
+    color:#000000;
+  }
+  
+  .search-history li a:hover {
+    text-decoration: underline;
+    color:#000000;
+  }
+  
+@media (max-width:1620px) {
+  .job-list {
+    grid-template-columns: 3fr;
+  }
+  .container {
+    padding: 10px 40px;
+  }
+}
+@media (max-width:500px) {
   .job-list {
     grid-template-columns: 1fr;
   }
+  .container {
+    padding: 10px 40px;
+  }
+  .History{
+    margin-left:0px;
+}
 }
