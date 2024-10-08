@@ -3,6 +3,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import "./SingleJob.css";
 import RelatedCard from "../Related/RelatedCard";
+import { fetchSkillsData } from "./FetchSkills";
 
 interface Skill {
   id: string;
@@ -72,36 +73,19 @@ export default function SingleJob() {
 
     fetchJob();
   }, [id]);
+
+  
   useEffect(() => {
-    const fetchSkills = async () => {
-      if (job) {
-        const skillPromises = job.relationships.skills.map((skill: Skill) =>
-          axios.get(`https://skills-api-zeta.vercel.app/skill/${skill.id}`)
-        );
-        const skillResponses = await Promise.all(skillPromises);
-        const skillNames = skillResponses.map(
-          (response) => response.data.data.skill.attributes.name
-        );
-        setSkills(skillNames);
-
-        setATTR(
-          skillResponses.map((response) => response.data.data.skill.attributes)
-        );
-        setJobsID(
-          skillResponses.map(
-            (response) => response.data.data.skill.relationships.jobs
-          )
-        );
-        setSkillsID(
-          skillResponses.map(
-            (response) => response.data.data.skill.relationships.skills
-          )
-        );
-      }
-    };
-
-    fetchSkills();
-  }, [job]);
+  if (job) {
+    fetchSkillsData(
+      job.relationships.skills,
+      setSkills,
+      setATTR,
+      setJobsID,
+      setSkillsID
+    );
+  }
+}, [job]);
 
 
 
