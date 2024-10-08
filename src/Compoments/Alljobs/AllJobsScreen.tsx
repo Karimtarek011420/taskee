@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import JobCard from "../jobcard/JobCard";
 import "./alljobs.css";
-import {  fetchJobs, fetchJobsQuery } from "../../RTK/JobsSlice";
+import { fetchJobs, fetchJobsQuery } from "../../RTK/JobsSlice";
 
 const AllJobsScreen = () => {
   const dispatch: any = useDispatch();
@@ -25,14 +25,15 @@ const AllJobsScreen = () => {
   };
 
   return (
-    <div className="container">
+    <div className="AllJobs-container">
       <h1>
         {Query !== "" ? `"${Query}"` : "All Jobs"} ({Data?.length})
       </h1>
       <div className="job-list">
-        {MappingJob()}
-
-        {Data?.length === 0 && "There's no Data"}
+        <div className="job-lists">
+          {MappingJob()}
+          {Data?.length === 0 && "There's no Data"}
+        </div>
       </div>
     </div>
   );

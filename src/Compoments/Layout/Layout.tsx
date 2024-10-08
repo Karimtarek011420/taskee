@@ -11,9 +11,6 @@ export default function Layout() {
   return <>
     <Navbar />
     {Pathname.includes("job/") ? "" : <SearchBox />}
-
-
-
     <Outlet />
   </>
 

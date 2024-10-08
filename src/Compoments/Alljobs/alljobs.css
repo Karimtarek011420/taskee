@@ -1,15 +1,20 @@
-
-.container{
-    padding: 10px 50px ;
+.AllJobs-container {
+    width: 95%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
 }
-.job-list{
-  
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+
+.job-list {
+    width: 100%;
+    display: flex;
+    gap: 50px;
+}
+.job-lists{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
 
 }
-@media (max-width: 500px) {
-    .job-list {
-        grid-template-columns: 1fr; 
-    } }
