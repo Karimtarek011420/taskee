@@ -52,6 +52,7 @@ const JobCard: React.FC<{ job: Job }> = ({ job }) => {
       </ul>
 
       <Link to={`/job/${job.id}`}>View Job details</Link>
+      
     </div>
   );
 };

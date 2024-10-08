@@ -51,6 +51,10 @@ export default function SingleJob() {
   const [SkillsID, setSkillsID] = useState<SkillType[][]>([]);
   const [JobsID, setJobsID] = useState<JobType[][]>([]);
   const [ATTR, setATTR] = useState<any[]>([]);
+  const [RelatedSkills, setRelatedSkills] = useState<{ SkillsData: any[], SkillsInfo: any[] }>({
+    SkillsData: [],
+    SkillsInfo: []
+  });
 
   useEffect(() => {
     const fetchJob = async () => {
@@ -68,7 +72,6 @@ export default function SingleJob() {
 
     fetchJob();
   }, [id]);
-
   useEffect(() => {
     const fetchSkills = async () => {
       if (job) {
@@ -79,9 +82,8 @@ export default function SingleJob() {
         const skillNames = skillResponses.map(
           (response) => response.data.data.skill.attributes.name
         );
-        setSkills(skillNames); // تخزين أسماء المهارات في الحالة
+        setSkills(skillNames);
 
-        // تخزين المهارات والوظائف المرتبطة
         setATTR(
           skillResponses.map((response) => response.data.data.skill.attributes)
         );
@@ -101,38 +103,56 @@ export default function SingleJob() {
     fetchSkills();
   }, [job]);
 
-  // استخدام useMemo لمنع إعادة الحساب غير الضرورية
+
+
   const memoizedAttributes = useMemo(
     () => ATTR.map((attr) => attr.name),
     [ATTR]
   );
 
   if (loading) {
-    return <div>Loading...</div>; // عرض حالة التحميل
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>; // عرض رسالة الخطأ
+    return <div>{error}</div>;
   }
 
   return (
     <div className="SJob-Container">
       <div>
-        <h1>{job?.attributes?.title}</h1>
+        <h1>{job?.attributes?.title} </h1>
+        <ul className="ATTR-Skills">
+          {skills.map((skillName, index) => (
+            <li key={index}>{skillName}</li> // عرض أسماء المهارات
+          ))}
+        </ul>
+
         <div>
           <h2>Related Skills:</h2>
           <ul>
-            {skills.map((skillName, index) => (
-              <li key={index}>{skillName}</li> // عرض أسماء المهارات
+            {RelatedSkills.SkillsData.map((skill, index) => (
+              <li key={index} className='related-card'>
+                <h3>{skill}</h3>
+                <div className="Skills-rate">
+                  <p><b>Importance</b>: {RelatedSkills.SkillsInfo[index]?.importance}</p>
+                  <p><b>Level</b>: {RelatedSkills.SkillsInfo[index]?.level}</p>
+                  <p><b>Type</b>: {RelatedSkills.SkillsInfo[index]?.type}</p>
+                </div>
+
+              </li>
             ))}
           </ul>
         </div>
       </div>
+
       <RelatedCard
         Jobs={JobsID}
         Skills={SkillsID}
-        ATTR={memoizedAttributes} // تمرير القيم المحسوبة باستخدام useMemo
+        ATTR={memoizedAttributes}
+        SetSkills={setRelatedSkills}
       />
+
     </div>
   );
 }

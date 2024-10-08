@@ -1,12 +1,14 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-
+import "./Related.css"
 const RelatedCard = React.memo((props: any) => {
-    const { Jobs, Skills } = props;
+    const { Jobs, Skills, SetSkills } = props;
     const [jobIDs, setJobIDs] = useState<string[]>([]);
     const [skillIDs, setSkillIDs] = useState<string[]>([]);
     const [JobsData, setJobsData] = useState<any[]>([]);
     const [SkillsData, setSkillsData] = useState<any[]>([]);
+
+
     const [SkillsInfo, setSkillsInfo] = useState<any[]>([]);
 
     useEffect(() => {
@@ -26,9 +28,6 @@ const RelatedCard = React.memo((props: any) => {
                     );
                     const JobsResponses = await Promise.all(JobsPromises);
                     const jobDetails = JobsResponses.map(response => response.data.data.job.attributes);
-                    console.log(
-                        JobsResponses.map(response => response.data.data)
-                    )
                     setJobsData(jobDetails);
                 } catch (error) {
                     console.error('فشل في جلب تفاصيل الوظائف:', error);
@@ -38,7 +37,6 @@ const RelatedCard = React.memo((props: any) => {
         fetchJobs();
     }, [jobIDs]);
 
-    // Get Skills Info 
     useEffect(() => {
         const fetchSkills = async () => {
             if (skillIDs.length) {
@@ -54,37 +52,27 @@ const RelatedCard = React.memo((props: any) => {
                         level: skill.level,
                         type: skill.type,
                     })));
+                    SetSkills({ SkillsData, SkillsInfo });
+
                 } catch (error) {
                     console.error('فشل في جلب تفاصيل المهارات:', error);
                 }
             }
         };
         fetchSkills();
-    }, [skillIDs]);
+    }, [skillIDs, SetSkills, SkillsData, SkillsInfo]);
 
     return (
         <div>
             <h2>Related Jobs:</h2>
             <ul>
                 {JobsData.map((job, index) => (
-                    <li key={index}>
-                        <h3>{job.title}</h3>
-                        <p>{job.description}</p>
+                    <li key={index} >
+                        <h3 className='Job-title'>{job.title}</h3>
                     </li>
                 ))}
             </ul>
 
-            <h2>Related Skills:</h2>
-            <ul>
-                {SkillsData.map((skill, index) => (
-                    <li key={index}>
-                        <h3>{skill}</h3>
-                        <p>Importance: {SkillsInfo[index]?.importance}</p>
-                        <p>Level: {SkillsInfo[index]?.level}</p>
-                        <p>Type: {SkillsInfo[index]?.type}</p>
-                    </li>
-                ))}
-            </ul>
         </div>
     );
 });
