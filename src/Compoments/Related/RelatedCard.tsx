@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import "./Related.css"
+import { Link } from 'react-router-dom';
 const RelatedCard = React.memo((props: any) => {
     const { Jobs, Skills, SetSkills } = props;
     const [jobIDs, setJobIDs] = useState<string[]>([]);
     const [skillIDs, setSkillIDs] = useState<string[]>([]);
     const [JobsData, setJobsData] = useState<any[]>([]);
+    const [JobsDataID, setJobsDataID] = useState<any[]>([]);
     const [SkillsData, setSkillsData] = useState<any[]>([]);
 
 
@@ -28,7 +30,9 @@ const RelatedCard = React.memo((props: any) => {
                     );
                     const JobsResponses = await Promise.all(JobsPromises);
                     const jobDetails = JobsResponses.map(response => response.data.data.job.attributes);
+                    const JobID = JobsResponses.map(response => response.data.data.job.id);
                     setJobsData(jobDetails);
+                    setJobsDataID(JobID);
                 } catch (error) {
                     console.error('فشل في جلب تفاصيل الوظائف:', error);
                 }
@@ -61,14 +65,17 @@ const RelatedCard = React.memo((props: any) => {
         };
         fetchSkills();
     }, [skillIDs, SetSkills, SkillsData, SkillsInfo]);
-
+    console.log()
     return (
         <div>
             <h2>Related Jobs:</h2>
             <ul>
                 {JobsData.map((job, index) => (
                     <li key={index} >
-                        <h3 className='Job-title'>{job.title}</h3>
+                        <Link to={`/job/${jobIDs[index]}`} className='Job-link'>
+                            <h3 className='Job-title'>{job.title}</h3>
+
+                        </Link>
                     </li>
                 ))}
             </ul>

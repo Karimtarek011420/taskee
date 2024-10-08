@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import "./jobcard.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -52,7 +52,7 @@ const JobCard: React.FC<{ job: Job }> = ({ job }) => {
       </ul>
 
       <Link to={`/job/${job.id}`}>View Job details</Link>
-      
+
     </div>
   );
 };
