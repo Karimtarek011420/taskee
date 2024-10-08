@@ -25,15 +25,14 @@ const AllJobsScreen = () => {
   };
 
   return (
-    <div className="AllJobs-container">
+    <div className="container">
       <h1>
         {Query !== "" ? `"${Query}"` : "All Jobs"} ({Data?.length})
       </h1>
+
       <div className="job-list">
-        <div className="job-lists">
-          {MappingJob()}
-          {Data?.length === 0 && "There's no Data"}
-        </div>
+        {MappingJob()}
+        {Data?.length === 0 && "There's no Data"}
       </div>
     </div>
   );
