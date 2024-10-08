@@ -4,12 +4,12 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./Compoments/Layout/Layout";
-// import NotFound from "./Compoments/NotFound/NotFound";
 import { Provider } from "react-redux";
 import store from "./RTK/store";
 import AllJobsScreen from "./Compoments/Alljobs/AllJobsScreen";
 import SingleJob from "./Compoments/SingleJob/SingleJob";
 import SearchComponent from "./Compoments/SearchComponent/SearchComponent";
+import NotFound from "./Compoments/NotFound/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -19,10 +19,9 @@ const router = createBrowserRouter([
       { path: "/", element: <AllJobsScreen /> },
       { path: "jobs", element: <AllJobsScreen /> },
       { path: "search", element: <SearchComponent /> },
-      { path: "about", element: <h1>About Page</h1> },
-      { path: "search", element: <AllJobsScreen/> },
       { path: "contact", element: <h1>Contact Page</h1> },
       { path: "job/:id", element: <SingleJob /> },
+      { path: "*", element: <NotFound/> },
     ],
   },
 ]);

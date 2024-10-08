@@ -1,78 +1,80 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffffff;
-    padding: 1rem 2rem;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .logo a {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
-    text-decoration: none;
-  }
-  
-  .nav ul {
-    display: flex;
-    list-style: none;
-  }
-  
-  .nav ul li {
-    margin-right: 1.5rem;
-  }
-  .nav ul li.home {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 1rem 2rem;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo a {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+}
+
+.nav ul {
+  display: flex;
+  list-style: none;
+}
+
+.nav ul li {
+  margin-right: 1.5rem;
+}
+/* .nav ul li.home {
     border-bottom: 2px solid black ; 
+  } */
+.nav ul li a:hover,
+.nav ul li a:focus {
+  border-bottom: 3px solid black;
+  transition: all 1s;
+}
+.nav ul li a:active {
+  border-bottom: 3px solid black;
+  transition: all 1s;
+}
+
+.nav ul li a {
+  text-decoration: none;
+  color: black;
+  font-size: 1.1rem;
+}
+
+.nav ul li a:hover {
+  color: #68132f;
+}
+@media (max-width: 500px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
   }
-  .nav ul li:hover
-   {
-    border-bottom: 3px solid black ; 
-    transition: all 1s;
+
+  .logo a {
+    font-size: 1.2rem;
   }
-  
+
+  .nav ul {
+    flex-direction: column;
+    width: 100%;
+    padding: 0px;
+  }
+
+  .nav ul li {
+    margin: 0.5rem 0;
+    width: fit-content;
+  }
+
   .nav ul li a {
-    text-decoration: none;
-    color:black ;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    text-align: left;
   }
-  
-  .nav ul li a:hover {
-    color: #68132f;
+
+  .nav ul li:hover {
+    border-bottom: 4px solid black;
+    transition: all 3s;
   }
-  @media (max-width:500px) {
-    .header {
-      flex-direction: column; 
-      align-items: flex-start; 
-      padding: 1rem; 
-    }
-  
-    .logo a {
-      font-size: 1.2rem; 
-    }
-  
-    .nav ul {
-      flex-direction: column; 
-      width: 100%;
-      padding: 0px;
-    }
-  
-    .nav ul li {
-      margin: 0.5rem 0; 
-      width:fit-content;
-    }
-  
-    .nav ul li a {
-      font-size: 1rem; 
-      padding: 0.5rem 1rem; 
-      width: 100%;
-      text-align: left; 
-    }
-    
-    .nav ul li:hover
-    {
-     border-bottom: 4px solid black ; 
-     transition: all 3s;
-   }
- 
-  }
+}
