@@ -52,9 +52,12 @@ export default function SingleJob() {
   const [SkillsID, setSkillsID] = useState<SkillType[][]>([]);
   const [JobsID, setJobsID] = useState<JobType[][]>([]);
   const [ATTR, setATTR] = useState<any[]>([]);
-  const [RelatedSkills, setRelatedSkills] = useState<{ SkillsData: any[], SkillsInfo: any[] }>({
+  const [RelatedSkills, setRelatedSkills] = useState<{
+    SkillsData: any[];
+    SkillsInfo: any[];
+  }>({
     SkillsData: [],
-    SkillsInfo: []
+    SkillsInfo: [],
   });
 
   useEffect(() => {
@@ -74,20 +77,17 @@ export default function SingleJob() {
     fetchJob();
   }, [id]);
 
-  
   useEffect(() => {
-  if (job) {
-    fetchSkillsData(
-      job.relationships.skills,
-      setSkills,
-      setATTR,
-      setJobsID,
-      setSkillsID
-    );
-  }
-}, [job]);
-
-
+    if (job) {
+      fetchSkillsData(
+        job.relationships.skills,
+        setSkills,
+        setATTR,
+        setJobsID,
+        setSkillsID
+      );
+    }
+  }, [job]);
 
   const memoizedAttributes = useMemo(
     () => ATTR.map((attr) => attr.name),
@@ -104,28 +104,37 @@ export default function SingleJob() {
 
   return (
     <div className="SJob-Container">
-      <div>
+      <div className="perant">
+        <div className="widthper">
         <h1>{job?.attributes?.title} </h1>
+        <h2>Related Skills:</h2>
         <ul className="ATTR-Skills">
           {skills.map((skillName, index) => (
-            <li key={index}>{skillName}</li> // عرض أسماء المهارات
+            <li key={index}>{skillName}</li>
           ))}
         </ul>
 
+        </div>
         <div>
-          <h2>Related Skills:</h2>
-          <ul>
-            {RelatedSkills.SkillsData.map((skill, index) => (
-              <li key={index} className='related-card'>
+          <ul className="listskill">
+          {RelatedSkills.SkillsData.map((skill, index) => (
+              <li key={index} className="listbox">
                 <h3>{skill}</h3>
-                <div className="Skills-rate">
-                  <p><b>Importance</b>: {RelatedSkills.SkillsInfo[index]?.importance}</p>
-                  <p><b>Level</b>: {RelatedSkills.SkillsInfo[index]?.level}</p>
-                  <p><b>Type</b>: {RelatedSkills.SkillsInfo[index]?.type}</p>
+                <div className="ATTR-Skill">
+                  <p>
+                    <b>Importance</b>:{" "}
+                    {RelatedSkills.SkillsInfo[index]?.importance}
+                  </p>
+                  <p>
+                    <b>Level</b>: {RelatedSkills.SkillsInfo[index]?.level}
+                  </p>
+                  <p>
+                    <b>Type</b>: {RelatedSkills.SkillsInfo[index]?.type}
+                  </p>
                 </div>
-
               </li>
             ))}
+
           </ul>
         </div>
       </div>
@@ -136,7 +145,6 @@ export default function SingleJob() {
         ATTR={memoizedAttributes}
         SetSkills={setRelatedSkills}
       />
-
     </div>
   );
 }

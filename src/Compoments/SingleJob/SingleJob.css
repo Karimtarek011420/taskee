@@ -1,20 +1,64 @@
 .SJob-Container{
-    width: 90%;
-    margin: auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 .ATTR-Skills{
-    display: flex;
-    gap: 10px;
     list-style: none;
-    li{
-        padding: 10px;
-        background-color: #ccc;
-        border-radius: 20px;
-        font-size: 16px;
-        font-weight:500;
-    }
+    display: grid;
+    grid-template-columns:  repeat(3  , auto) ;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style-position: inside;
+    margin-bottom: 10px;  
+}
+.ATTR-Skills li {
+    padding: 5px;
+    background-color:#C4C4C4;
+    border-radius: 10px;
+    color: #000000;
+    margin: 0;
+    padding: 10px;
+}
+.ATTR-Skill{
+     list-style: none;
+    display: grid;
+    grid-template-columns:  repeat(3  , auto) ;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style-position: inside;
+    margin-bottom: 10px; 
+}
+
+.listskill{
+    list-style: none;
+    margin:0px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+    list-style-position: inside;
+
 
 }
+.listbox{
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin-bottom: 10px;
+
+}
+.perant{
+    background-color: #ffffff;
+    box-shadow: 5px 5px 5px 5px #ffffff;
+    padding: 10px;
+    margin-top: 20px;
+}
+ 
+@media (max-width:900px) {
+    .SJob-Container{
+        display: flex;
+        flex-direction: column;
+    }
+ 
+  }

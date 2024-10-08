@@ -69,7 +69,7 @@ const RelatedCard = React.memo((props: Job) => {
     }, [skillIDs, SetSkills, SkillsData, SkillsInfo]);
 
     return (
-        <div>
+        <div className='RelatedJobs'>
             <h2>Related Jobs:</h2>
             <ul>
                 {JobsData.map((job, index) => (
