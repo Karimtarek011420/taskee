@@ -22,9 +22,7 @@
 .nav ul li {
   margin-right: 1.5rem;
 }
-/* .nav ul li.home {
-    border-bottom: 2px solid black ; 
-  } */
+
 .nav ul li a:hover,
 .nav ul li a:focus {
   border-bottom: 3px solid black;
