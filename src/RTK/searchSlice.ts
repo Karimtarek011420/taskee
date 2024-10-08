@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface SearchState {
   searchHistory: string[];
@@ -9,11 +9,10 @@ const initialState: SearchState = {
 };
 
 const searchSlice = createSlice({
-  name: 'search',
+  name: "search",
   initialState,
   reducers: {
     addSearchHistory: (state, action: PayloadAction<string>) => {
-      // Ensure we don't duplicate queries and limit the history to 10 items
       const newHistory = state.searchHistory.filter(
         (history) => history !== action.payload
       );
