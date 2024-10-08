@@ -10,6 +10,7 @@ import AllJobsScreen from "./Compoments/Alljobs/AllJobsScreen";
 import SingleJob from "./Compoments/SingleJob/SingleJob";
 import SearchComponent from "./Compoments/SearchComponent/SearchComponent";
 import NotFound from "./Compoments/NotFound/NotFound";
+import History from "./Compoments/History/History";
 
 const router = createBrowserRouter([
   {
@@ -19,7 +20,7 @@ const router = createBrowserRouter([
       { path: "/", element: <AllJobsScreen /> },
       { path: "jobs", element: <AllJobsScreen /> },
       { path: "search", element: <SearchComponent /> },
-      { path: "contact", element: <h1>Contact Page</h1> },
+      { path: "history", element: <History/> },
       { path: "job/:id", element: <SingleJob /> },
       { path: "*", element: <NotFound/> },
     ],

@@ -1,0 +1,27 @@
+.History{
+    background-color: #D9D9D9;
+    padding: 20px;
+    width: 80%;
+    margin: auto;
+    margin-top: 30px;
+}
+/* Styles for search history */
+.search-history {
+    margin-top: 20px;
+    padding-left: 10px;
+    
+  }
+  
+  .search-history li {
+    margin-bottom: 10px;
+  }
+  
+  .search-history li a {
+    /* text-decoration: none; */
+    color:#000000;
+  }
+  
+  .search-history li a:hover {
+    text-decoration: underline;
+    color:#000000;
+  }
