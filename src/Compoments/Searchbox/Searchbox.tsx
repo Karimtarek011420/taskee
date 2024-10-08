@@ -1,31 +1,46 @@
-import React, { useState } from "react";
-import { debounce } from "../../utils/debounce";
+import React, { useState, useCallback, useEffect } from "react";
+import { debounce } from 'lodash'; // Use lodash debounce
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import './searchbox.css';
 import { useDispatch } from "react-redux";
 import { GetQuery, fetchJobsQuery, fetchJobs, ClearQuery } from "../../RTK/JobsSlice";
 import { AppDispatch } from "../../RTK/store";
-import { addSearchHistory } from '../../RTK/searchSlice';
-
+import { setSearchHistory } from '../../RTK/searchSlice';
 
 export default function Searchbox() {
-  const dispatch = useDispatch<AppDispatch>(); // تحديد نوع الـ dispatch
-  const [query, setQuery] = useState("");
+  const dispatch = useDispatch<AppDispatch>();
+  const [query, setQuery] = useState<string>("");
 
-  const handleSearch = debounce((value: string) => {
-    if (value.length >= 3) {
-      dispatch(GetQuery(value));
-      dispatch(fetchJobsQuery(value));
-      dispatch(addSearchHistory(query));
+  // Handle search debounce logic
+  const handleSearch = useCallback(
+    debounce((value: string) => {
+      if (value.length >= 3) {
+        dispatch(GetQuery(value));
+        dispatch(fetchJobsQuery(value));
+      } else {
+        dispatch(fetchJobs());
+        dispatch(ClearQuery());
+      }
+    }, 300),
+    [dispatch]
+  );
 
-    }
-    else {
-      dispatch(fetchJobs());
-      dispatch(ClearQuery());
-
-    }
-  }, 300);
+  // Save search query logic
+  const saveSearchQuery = useCallback(
+    debounce((searchTerm: string) => {
+      if (searchTerm.trim() !== "") {
+        // حفظ القيمة فقط إذا كانت غير فارغة
+        dispatch(setSearchHistory(searchTerm));
+      }
+    }, 500),
+    [dispatch]
+  );
+  useEffect(() => {
+    return () => {
+      saveSearchQuery.cancel();
+    };
+  }, [saveSearchQuery]);
 
   return (
     <div className="searchheader">
@@ -36,6 +51,7 @@ export default function Searchbox() {
           onChange={(e) => {
             setQuery(e.target.value);
             handleSearch(e.target.value);
+            saveSearchQuery(e.target.value);
           }}
           placeholder="Search keyword..."
           style={{

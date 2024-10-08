@@ -1,28 +1,26 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface SearchState {
-  searchHistory: string[];
+  searchHistory: string[];  // قائمة لتخزين تاريخ البحث
 }
 
 const initialState: SearchState = {
-  searchHistory: [],
+  searchHistory: [],  // قائمة فارغة في البداية
 };
 
 const searchSlice = createSlice({
-  name: "search",
+  name: 'search',
   initialState,
   reducers: {
-    addSearchHistory: (state, action: PayloadAction<string>) => {
-      const newHistory = state.searchHistory.filter(
-        (history) => history !== action.payload
-      );
-      state.searchHistory = [action.payload, ...newHistory].slice(0, 10);
+    setSearchHistory: (state, action: PayloadAction<string>) => {
+      // إضافة القيمة الجديدة إلى القائمة الموجودة
+      state.searchHistory = [...state.searchHistory, action.payload];
     },
     clearSearchHistory: (state) => {
-      state.searchHistory = [];
+      state.searchHistory = [];  // تفريغ القائمة
     },
   },
 });
 
-export const { addSearchHistory, clearSearchHistory } = searchSlice.actions;
+export const { setSearchHistory, clearSearchHistory } = searchSlice.actions;
 export default searchSlice.reducer;

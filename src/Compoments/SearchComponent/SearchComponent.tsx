@@ -10,10 +10,9 @@ export default function SearchComponent() {
   const dispatch: any = useDispatch();
   const Data = useSelector((state: any) => state?.jobs?.jobs);
   const Query = useSelector((state: any) => state?.jobs?.Query);
-  const searchHistory = useSelector(
-    (state: RootState) => state.search.searchHistory
-  );
-  console.log(searchHistory);
+  const searchHistory = useSelector((state: RootState) => state.search.searchHistory);
+
+
 
   useEffect(() => {
     if (!Query) {
@@ -48,11 +47,13 @@ export default function SearchComponent() {
         <div className="History">
           <h3>Search History:</h3>
           <ul className="search-history">
-            {searchHistory.map((history: string, index: number) => (
-              <li key={index}>
-                <Link to={`/search?query=${history}`}>{history}</Link>
-              </li>
-            ))}
+
+          {searchHistory.map((history, index) => (
+          <li key={index}>
+            <Link to={`/search?query=${history}`}>{history}</Link>
+          </li>
+        ))}
+ 
           </ul>
         </div>
       </div>
